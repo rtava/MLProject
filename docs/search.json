@@ -33,5 +33,12 @@
     "title": "Using RF to estimate pd",
     "section": "",
     "text": "This is the first post of my blog\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/Random Forest/RF.html",
+    "href": "posts/Random Forest/RF.html",
+    "title": "MLProject",
+    "section": "",
+    "text": "import pandas as pd"
   }
 ]
