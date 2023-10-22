@@ -2,10 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/OLS/RF.html",
+      "/posts/Log_Reg/LR.html",
       "/posts/post-with-code/index.html",
-      "/posts/Random Forest/index.html",
-      "/posts/welcome/index.html"
+      "/posts/Random Forest/index.html"
     ]
   }
 ]

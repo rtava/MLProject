@@ -1,24 +1,31 @@
 [
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
+    "objectID": "posts/Random Forest/index.html",
+    "href": "posts/Random Forest/index.html",
+    "title": "Using RF to estimate pd",
     "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+    "text": "This is the first post of my blog\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "objectID": "posts/Log_Reg/LR.html",
+    "href": "posts/Log_Reg/LR.html",
+    "title": "Using logistic regression to predict loans defualt rate",
     "section": "",
-    "text": "This is a post with executable code."
+    "text": "import pandas as pd\n\n\nprint(\"this is the print type\")\n\nthis is the print type"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "MLProject",
+    "objectID": "posts/Log_Reg/LR.html#start",
+    "href": "posts/Log_Reg/LR.html#start",
+    "title": "Using logistic regression to predict loans defualt rate",
     "section": "",
-    "text": "Quarto Basics\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 11, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nUsing RF to estimate pd\n\n\n\n\n\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2023\n\n\nReza\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "import pandas as pd\n\n\nprint(\"this is the print type\")\n\nthis is the print type"
+  },
+  {
+    "objectID": "posts/Log_Reg/LR.html#thsi-is-true",
+    "href": "posts/Log_Reg/LR.html#thsi-is-true",
+    "title": "Using logistic regression to predict loans defualt rate",
+    "section": "Thsi is True",
+    "text": "Thsi is True"
   },
   {
     "objectID": "about.html",
@@ -28,31 +35,17 @@
     "text": "I’m Reza Tavakoli - a PhD student in Economics at Virginia Tech University. I have a keen interest in using various tools to answer serious questions. Through this blog, I will be sharing material related to introducing different kinds of econometric and machine learning methods, using these methods to answer important questions that matter."
   },
   {
-    "objectID": "posts/OLS/RF.html",
-    "href": "posts/OLS/RF.html",
-    "title": "Quarto Basics",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MLProject",
     "section": "",
-    "text": "import pandas as pd\n\n\nprint(\"this is the print type\")\n\nthis is the print type"
+    "text": "Using logistic regression to predict defualt rate\n\n\n\n\n\n\n\nML\n\n\nregression\n\n\nclassification\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 11, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nUsing RF to estimate pd\n\n\n\n\n\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2023\n\n\nReza\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "posts/OLS/RF.html#start",
-    "href": "posts/OLS/RF.html#start",
-    "title": "Quarto Basics",
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
     "section": "",
-    "text": "import pandas as pd\n\n\nprint(\"this is the print type\")\n\nthis is the print type"
-  },
-  {
-    "objectID": "posts/Random Forest/index.html",
-    "href": "posts/Random Forest/index.html",
-    "title": "Using RF to estimate pd",
-    "section": "",
-    "text": "This is the first post of my blog\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
-  },
-  {
-    "objectID": "posts/OLS/RF.html#thsi-is-true",
-    "href": "posts/OLS/RF.html#thsi-is-true",
-    "title": "Quarto Basics",
-    "section": "Thsi is True",
-    "text": "Thsi is True"
+    "text": "This is a post with executable code."
   }
 ]
