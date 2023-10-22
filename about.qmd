@@ -1,12 +1,12 @@
 ---
-title: "About"
+title: "About Me"
 image: profile.jpg
 about:
   template: jolla
   links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com/rtavakkoli
+    - icon: file-earmark-person
+      text: Resume
+      href: https://drive.google.com/file/d/1KadxC1mOJAwju9ny7IN8Mv6uOExjRIPv/view?usp=sharing
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/reza-tavakkoli-699952b3/
@@ -16,4 +16,4 @@ about:
 
 ---
 
-About this blog
+I'm Reza Tavakoli - a PhD student in Economics at Virginia Tech University. I have a keen interest in using various tools to answer serious questions. Through this blog, I will be sharing material related to introducing different kinds of econometric and machine learning methods, using these methods to answer important questions that matter.
