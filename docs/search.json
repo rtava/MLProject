@@ -11,14 +11,7 @@
     "href": "posts/Log_Reg/LR.html",
     "title": "Using logistic regression to predict loans defualt rate",
     "section": "",
-    "text": "import pandas as pd\n\n\nprint(\"this is the print type\")\n\nthis is the print type"
-  },
-  {
-    "objectID": "posts/Log_Reg/LR.html#start",
-    "href": "posts/Log_Reg/LR.html#start",
-    "title": "Using logistic regression to predict loans defualt rate",
-    "section": "",
-    "text": "import pandas as pd\n\n\nprint(\"this is the print type\")\n\nthis is the print type"
+    "text": "In this post, I will use the logit regression method to predict default rate."
   },
   {
     "objectID": "posts/Log_Reg/LR.html#thsi-is-true",
@@ -39,7 +32,7 @@
     "href": "index.html",
     "title": "MLProject",
     "section": "",
-    "text": "Using logistic regression to predict defualt rate\n\n\n\n\n\n\n\nML\n\n\nregression\n\n\nclassification\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 11, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nUsing RF to estimate pd\n\n\n\n\n\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2023\n\n\nReza\n\n\n\n\n\n\nNo matching items"
+    "text": "Using logistic regression to predict loans defualt rate\n\n\n\n\n\n\n\nML\n\n\nregression\n\n\nclassification\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nOct 11, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nUsing RF to estimate pd\n\n\n\n\n\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2023\n\n\nReza\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
