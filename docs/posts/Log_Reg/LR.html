@@ -384,7 +384,7 @@ About 0.38 of lables was defaulted with label 1</code></pre>
 Test Sample Size: 1064</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="103">
+<div class="cell" data-execution_count="120">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -397,17 +397,17 @@ Test Sample Size: 1064</code></pre>
 </div>
 <section id="model-evaluation" class="level2">
 <h2 class="anchored" data-anchor-id="model-evaluation">Model Evaluation</h2>
-<div class="cell" data-execution_count="104">
+<div class="cell" data-execution_count="121">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Accuracy_RF <span class="op">=</span> metrics.accuracy_score(y_test, y_pred_RF)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>F1_RF <span class="op">=</span> metrics.f1_score(y_test, y_pred_RF)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>AUC <span class="op">=</span> metrics.roc_auc_score(y_test, y_pred_RF)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>clas_report <span class="op">=</span> metrics.classification_report(y_test, y_pred_RF)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy:"</span>,Accuracy_RF, <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score:"</span>, F1_RF, <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC:"</span>, AUC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (Accuracy_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (F1_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (AUC))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>RF Accuracy: 0.6860902255639098 
-F1 Score: 0.4939393939393939 
-AUC_ROC: 0.6291513480392158</code></pre>
+<pre><code>RF Accuracy: 0.69 
+F1 Score: 0.49 
+AUC_ROC: 0.63</code></pre>
 </div>
 </div>
 <section id="confusion-matrix" class="level3">
@@ -453,7 +453,7 @@ AUC_ROC: 0.6291513480392158</code></pre>
 </div>
 </div>
 <p>We can see that the optimal threshold is 0.3, then we have:</p>
-<div class="cell" data-execution_count="108">
+<div class="cell" data-execution_count="118">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">0.3</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>y_pred_RF <span class="op">=</span> (y_prob_RF[:,<span class="dv">1</span>] <span class="op">&gt;=</span> threshold).astype(<span class="st">'int'</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -462,15 +462,15 @@ AUC_ROC: 0.6291513480392158</code></pre>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>AUC <span class="op">=</span> metrics.roc_auc_score(y_test, y_pred_RF)</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>clas_report <span class="op">=</span> metrics.classification_report(y_test, y_pred_RF)</span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy:"</span>,Accuracy_RF, <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score:"</span>, F1_RF, <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC:"</span>, AUC)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (Accuracy_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (F1_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (AUC))</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>cf_matrix <span class="op">=</span> confusion_matrix(y_test, y_pred_RF)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cf_matrix, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, fmt<span class="op">=</span><span class="st">'0.1f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cf_matrix, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, fmt<span class="op">=</span><span class="st">'0.1f'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>RF Accuracy: 0.6099624060150376 
-F1 Score: 0.5862412761714855 
-AUC_ROC: 0.6438419117647058</code></pre>
+<pre><code>RF Accuracy: 0.61 
+F1 Score: 0.59 
+AUC_ROC: 0.64</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="108">
+<div class="cell-output cell-output-display" data-execution_count="118">
 <pre><code>&lt;Axes: &gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
