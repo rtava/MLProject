@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Reza Tavakoli">
-<meta name="dcterms.date" content="2023-10-22">
+<meta name="dcterms.date" content="2023-11-15">
 
-<title>MLProject - Costumer Royality, Using Logistic Regression</title>
+<title>MLProject - Customer Loyalty, Using Logistic Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -95,6 +95,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -142,11 +145,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Costumer Royality, Using Logistic Regression</h1>
+      <h1 class="title">Customer Loyalty, Using Logistic Regression</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">ML</div>
-                <div class="quarto-category">regression</div>
-                <div class="quarto-category">classification</div>
+                <div class="quarto-category">Regression</div>
+                <div class="quarto-category">Classification</div>
               </div>
                   </div>
   </div>
@@ -164,7 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 22, 2023</p>
+        <p class="date">November 15, 2023</p>
       </div>
     </div>
     
@@ -182,26 +185,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>In this post, I will use Random Forest method to predict default rate.</p>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>To answer the question, I will analyze loan data for 5000 banking system customers in a Middle Eastern country.</p>
-<div class="cell" data-execution_count="95">
+<p>In this blog post, I will use a telecommunications dataset for predicting customer churn.</p>
+<section id="data" class="level1">
+<h1>Data</h1>
+<p>Telco Churn is a hypothetical dataset that pertains to a telecommunications company’s efforts to minimize the number of customers leaving its services. The dataset has a separate record for each customer, which includes various demographic and service usage information. I have sourced this dataset from “IBM Business Analytics.”</p>
+<p>The dataset contains information on the following:</p>
+<ul>
+<li>Customers who have discontinued the services within the last month are recorded under the column called “Churn.”</li>
+<li>Services that each customer has subscribed to, including phone, multiple lines, internet, online security, online backup, device protection, tech support, and streaming TV and movies.</li>
+<li>Customer account information such as the duration of their association with the company, the type of contract they have signed up for, payment method, paperless billing, monthly charges, and the total charges incurred.</li>
+<li>Demographic information about customers, including their gender, age range, and whether they have partners and dependents.</li>
+</ul>
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"C:</span><span class="ch">\\</span><span class="st">Users</span><span class="ch">\\</span><span class="st">rtava</span><span class="ch">\\</span><span class="st">OneDrive</span><span class="ch">\\</span><span class="st">Documents</span><span class="ch">\\</span><span class="st">Git</span><span class="ch">\\</span><span class="st">MLProject</span><span class="ch">\\</span><span class="st">loans_clean.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/rtava/MLProject/master/posts/Logistic_Regrssion/ChurnData.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="96">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This dataset has"</span>, df.shape[<span class="dv">0</span>], <span class="st">"records with"</span>, df.shape[<span class="dv">1</span>], <span class="st">"atributes"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"About"</span>, df.label.mean().<span class="bu">round</span>(<span class="dv">2</span>) , <span class="st">"of lables was defaulted with label 1"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>This dataset has 5578 records with 16 atributes
-About 0.38 of lables was defaulted with label 1</code></pre>
-</div>
-</div>
-</section>
-<section id="varibales" class="level2">
-<h2 class="anchored" data-anchor-id="varibales">Varibales</h2>
-<p>The following table provide a description for variables in the data set.</p>
+<p>I will choose some featurse that are more related to consumer behaviour.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%">
@@ -215,196 +214,340 @@ About 0.38 of lables was defaulted with label 1</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">tenure</td>
+<td style="text-align: left;">Indicates the total amount of months that the customer has been with the company by the end of the quarter specified above.</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">age</td>
-<td style="text-align: left;">Age of borrower</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">install</td>
-<td style="text-align: left;">Number of requested loan’s installment</td>
+<td style="text-align: left;">Age of a costumer</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">amount</td>
-<td style="text-align: left;">Number of requested loan</td>
+<td style="text-align: left;">address</td>
+<td style="text-align: left;">a code that identify the location of a costumer</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">delayed</td>
-<td style="text-align: left;">total delyaed that the borrower had</td>
+<td style="text-align: left;">income</td>
+<td style="text-align: left;">costumers income</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">neg2y</td>
-<td style="text-align: left;">Number of negative status in recent two years</td>
+<td style="text-align: left;">ed</td>
+<td style="text-align: left;">costumers education levels</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">neg2yb</td>
-<td style="text-align: left;">Number of negative status before recent two years</td>
+<td style="text-align: left;">employ, equip, callcard, and wireless</td>
+<td style="text-align: left;">types of rigestered services</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">pd_6m</td>
-<td style="text-align: left;">Number of past due payment in recent 6 months</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">pd_618</td>
-<td style="text-align: left;">Number of past due payment in recent 6-18 months</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">pd_18m</td>
-<td style="text-align: left;">Number of past due payment before recent 18 months</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ud_12m</td>
-<td style="text-align: left;">Number of unpaid payment in recent 12 months</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ud_12mm</td>
-<td style="text-align: left;">Number of unpaid payment before recent 12 months</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">nloans</td>
-<td style="text-align: left;">Number of terminated loan the person have had</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">loanAge</td>
-<td style="text-align: left;">The lodest loan age</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">remain</td>
-<td style="text-align: left;">Outstanding debt to total debt (ratio)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">wneg_2y</td>
-<td style="text-align: left;">Worst negative status in recent two years</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">label</td>
-<td style="text-align: left;">is =1 if the costumer paid at least one installment with more than 90 days delay</td>
+<td style="text-align: left;">churn</td>
+<td style="text-align: left;">a dummy variable that indicates whether a costumer churn or not.</td>
 </tr>
 </tbody>
 </table>
-</section>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'tenure'</span>, <span class="st">'age'</span>, <span class="st">'address'</span>, <span class="st">'income'</span>, <span class="st">'ed'</span>, <span class="st">'employ'</span>, <span class="st">'equip'</span>,   <span class="st">'callcard'</span>, <span class="st">'wireless'</span>,<span class="st">'churn'</span>]]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">tenure</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">address</th>
+<th data-quarto-table-cell-role="th">income</th>
+<th data-quarto-table-cell-role="th">ed</th>
+<th data-quarto-table-cell-role="th">employ</th>
+<th data-quarto-table-cell-role="th">equip</th>
+<th data-quarto-table-cell-role="th">callcard</th>
+<th data-quarto-table-cell-role="th">wireless</th>
+<th data-quarto-table-cell-role="th">churn</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>11.0</td>
+<td>33.0</td>
+<td>7.0</td>
+<td>136.0</td>
+<td>5.0</td>
+<td>5.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>33.0</td>
+<td>33.0</td>
+<td>12.0</td>
+<td>33.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>23.0</td>
+<td>30.0</td>
+<td>9.0</td>
+<td>30.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>38.0</td>
+<td>35.0</td>
+<td>5.0</td>
+<td>76.0</td>
+<td>2.0</td>
+<td>10.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>7.0</td>
+<td>35.0</td>
+<td>14.0</td>
+<td>80.0</td>
+<td>2.0</td>
+<td>15.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>68.0</td>
+<td>52.0</td>
+<td>17.0</td>
+<td>120.0</td>
+<td>1.0</td>
+<td>24.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>42.0</td>
+<td>40.0</td>
+<td>7.0</td>
+<td>37.0</td>
+<td>2.0</td>
+<td>8.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>9.0</td>
+<td>21.0</td>
+<td>1.0</td>
+<td>17.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>35.0</td>
+<td>50.0</td>
+<td>26.0</td>
+<td>140.0</td>
+<td>2.0</td>
+<td>21.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>49.0</td>
+<td>51.0</td>
+<td>27.0</td>
+<td>63.0</td>
+<td>4.0</td>
+<td>19.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This dataset has"</span>, df.shape[<span class="dv">0</span>], <span class="st">"records with"</span>, df.shape[<span class="dv">1</span>], <span class="st">"atributes"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"About"</span>, df.churn.mean().<span class="bu">round</span>(<span class="dv">2</span>) , <span class="st">"of costumers chruned"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This dataset has 200 records with 10 atributes
+About 0.29 of costumers chruned</code></pre>
+</div>
+</div>
 <section id="descriptive-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h2>
-<div class="cell" data-execution_count="97">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'install'</span>]<span class="op">&gt;</span><span class="dv">61</span>, <span class="st">'Installment_Group'</span>]<span class="op">=</span><span class="st">"less than 60"</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df.Installment_Group.fillna(<span class="st">"more than 60"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plot <span class="op">=</span> sns.scatterplot(x<span class="op">=</span><span class="st">"install"</span>, y<span class="op">=</span><span class="st">"amount"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">5</span>, palette<span class="op">=</span><span class="st">"ch:r=-.2,d=.3_r"</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                sizes<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">8</span>), linewidth<span class="op">=</span><span class="dv">0</span>, hue<span class="op">=</span><span class="st">"Installment_Group"</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                data<span class="op">=</span>df)<span class="op">;</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plot.set_xlabel(<span class="st">"Number of installment"</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>plot.set_ylabel(<span class="st">"Loan Amount"</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>plot.set_title(<span class="st">"Relation between loan amount and number of installment"</span>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>plt.show()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax1, ax2, ax3, ax4 <span class="op">=</span> axes.flatten()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">"ed"</span>, y<span class="op">=</span><span class="st">"churn"</span>, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            label<span class="op">=</span><span class="st">"Churned Costumers"</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">"b"</span>, ax<span class="op">=</span>ax1)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'tenure'</span>, hue<span class="op">=</span><span class="st">'churn'</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span><span class="st">"b"</span>, palette<span class="op">=</span><span class="st">"light:b_r"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>             multiple<span class="op">=</span><span class="st">"stack"</span> ,edgecolor<span class="op">=</span><span class="st">".3"</span>, ax<span class="op">=</span>ax2)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'age'</span>, hue<span class="op">=</span><span class="st">'churn'</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span><span class="st">"b"</span>, palette<span class="op">=</span><span class="st">"light:b_r"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>             multiple<span class="op">=</span><span class="st">"stack"</span>,edgecolor<span class="op">=</span><span class="st">".3"</span>, ax<span class="op">=</span>ax3)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>df,x<span class="op">=</span><span class="st">"churn"</span>, y<span class="op">=</span><span class="st">"income"</span>, </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            label<span class="op">=</span><span class="st">"Costumers Income"</span>, color<span class="op">=</span><span class="st">"b"</span>, ax<span class="op">=</span>ax4)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="Logistic Regression_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+<p><img src="Logistic Regression_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Logistic Regression_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <section id="dealing-with-outliers" class="level3">
 <h3 class="anchored" data-anchor-id="dealing-with-outliers">Dealing with outliers</h3>
 <p>The following lines remove outliers using interquartile range method:</p>
 <div class="cell" data-execution_count="98">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span><span class="st">'Installment_Group'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>df_new <span class="op">=</span> df</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> df_new.columns:</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> df_new[c].quantile(<span class="fl">0.05</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    q3 <span class="op">=</span> df_new[c].quantile(<span class="fl">0.95</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    iqr <span class="op">=</span> q3<span class="op">-</span>q1</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    lower_fence <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span><span class="op">*</span>iqr</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    upper_fence <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span><span class="op">*</span>iqr</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(df)):</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_new.loc[i, c] <span class="op">&lt;</span> lower_fence <span class="kw">or</span> df_new.loc[i, c] <span class="op">&gt;</span> upper_fence:  <span class="co"># if outlier</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            df_new.loc[i, <span class="st">"out_"</span> <span class="op">+</span> c] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            df_new.loc[i, <span class="st">"out_"</span> <span class="op">+</span> c] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>out_col <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> df_new.columns <span class="cf">if</span> <span class="st">'out_'</span> <span class="kw">in</span> col]</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>df_new[<span class="st">'out'</span>] <span class="op">=</span> df_new[out_col].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>df_new <span class="op">=</span> df_new.loc[df_new.out<span class="op">==</span><span class="dv">0</span>]</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>df_new.drop([col <span class="cf">for</span> col <span class="kw">in</span> df_new.columns <span class="cf">if</span> <span class="st">'out_'</span> <span class="kw">in</span> col], axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>df_new.drop(columns<span class="op">=</span>[<span class="st">'out'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span><span class="st">'Installment_Group'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df_new <span class="op">=</span> df</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> df_new.columns:</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> df_new[c].quantile(<span class="fl">0.05</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    q3 <span class="op">=</span> df_new[c].quantile(<span class="fl">0.95</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    iqr <span class="op">=</span> q3<span class="op">-</span>q1</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    lower_fence <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span><span class="op">*</span>iqr</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    upper_fence <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span><span class="op">*</span>iqr</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(df)):</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_new.loc[i, c] <span class="op">&lt;</span> lower_fence <span class="kw">or</span> df_new.loc[i, c] <span class="op">&gt;</span> upper_fence:  <span class="co"># if outlier</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            df_new.loc[i, <span class="st">"out_"</span> <span class="op">+</span> c] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            df_new.loc[i, <span class="st">"out_"</span> <span class="op">+</span> c] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>out_col <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> df_new.columns <span class="cf">if</span> <span class="st">'out_'</span> <span class="kw">in</span> col]</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>df_new[<span class="st">'out'</span>] <span class="op">=</span> df_new[out_col].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>df_new <span class="op">=</span> df_new.loc[df_new.out<span class="op">==</span><span class="dv">0</span>]</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>df_new.drop([col <span class="cf">for</span> col <span class="kw">in</span> df_new.columns <span class="cf">if</span> <span class="st">'out_'</span> <span class="kw">in</span> col], axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>df_new.drop(columns<span class="op">=</span>[<span class="st">'out'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I change the categorical dummies to usual dummies:</p>
 <div class="cell" data-execution_count="99">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_prep <span class="op">=</span> pd.get_dummies(df_new, columns<span class="op">=</span>[<span class="st">'wneg_2y'</span>])</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> [<span class="st">'wneg_2y_0.0'</span>, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">'wneg_2y_1.0'</span>, </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">'wneg_2y_2.0'</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">'wneg_2y_3.0'</span>]:</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        df_prep[column] <span class="op">=</span> df_prep[column].replace({<span class="va">True</span>: <span class="dv">1</span>, <span class="va">False</span>: <span class="dv">0</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_prep <span class="op">=</span> pd.get_dummies(df_new, columns<span class="op">=</span>[<span class="st">'wneg_2y'</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> [<span class="st">'wneg_2y_0.0'</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">'wneg_2y_1.0'</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">'wneg_2y_2.0'</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">'wneg_2y_3.0'</span>]:</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        df_prep[column] <span class="op">=</span> df_prep[column].replace({<span class="va">True</span>: <span class="dv">1</span>, <span class="va">False</span>: <span class="dv">0</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="correlation-between-variabels" class="level3">
 <h3 class="anchored">Correlation between variabels:</h3>
 <div class="cell" data-execution_count="100">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> df_prep.corr(method <span class="op">=</span> <span class="st">'pearson'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>corr</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corr,annot<span class="op">=</span><span class="va">False</span>,fmt<span class="op">=</span><span class="st">".1f"</span>, linewidth<span class="op">=</span><span class="fl">.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> df_prep.corr(method <span class="op">=</span> <span class="st">'pearson'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>corr</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corr,annot<span class="op">=</span><span class="va">False</span>,fmt<span class="op">=</span><span class="st">".1f"</span>, linewidth<span class="op">=</span><span class="fl">.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="100">
 <pre><code>&lt;Axes: &gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Logistic Regression_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<p><img src="Logistic Regression_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Based on the heat map correlation, I will remove “wneg” variables.</p>
 <div class="cell" data-execution_count="101">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x_col <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'install'</span>, <span class="st">'amount'</span>, <span class="st">'delayed'</span>, <span class="st">'neg2y'</span>, <span class="st">'neg2yb'</span>, <span class="st">'pd_6m'</span>,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'pd_618'</span>, <span class="st">'pd_18m'</span>, <span class="st">'ud_12m'</span>, <span class="st">'ud_12mm'</span>, <span class="st">'nloans'</span>, <span class="st">'loanAge'</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'remain'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x_col <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'install'</span>, <span class="st">'amount'</span>, <span class="st">'delayed'</span>, <span class="st">'neg2y'</span>, <span class="st">'neg2yb'</span>, <span class="st">'pd_6m'</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'pd_618'</span>, <span class="st">'pd_18m'</span>, <span class="st">'ud_12m'</span>, <span class="st">'ud_12mm'</span>, <span class="st">'nloans'</span>, <span class="st">'loanAge'</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'remain'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <h2 id="model" class="anchored" data-anchor-id="correlation-between-variabels">
 About the Model
 </h2>
 <div class="cell" data-execution_count="102">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_train, df_test <span class="op">=</span> train_test_split(df_prep, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state <span class="op">=</span> <span class="dv">1234</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> df_train[x_col], df_train[<span class="st">'label'</span>]</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> df_test[x_col], df_test[<span class="st">'label'</span>]</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Train Sample Size:"</span>, X_train.shape[<span class="dv">0</span>],</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="ch">\n</span><span class="st">Test Sample Size:"</span>, X_test.shape[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_train, df_test <span class="op">=</span> train_test_split(df_prep, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state <span class="op">=</span> <span class="dv">1234</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> df_train[x_col], df_train[<span class="st">'label'</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> df_test[x_col], df_test[<span class="st">'label'</span>]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Train Sample Size:"</span>, X_train.shape[<span class="dv">0</span>],</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="ch">\n</span><span class="st">Test Sample Size:"</span>, X_test.shape[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Train Sample Size: 4252 
 Test Sample Size: 1064</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="120">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>RF_model <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">1234</span>, max_depth <span class="op">=</span> <span class="dv">20</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, class_weight<span class="op">=</span><span class="st">'balanced'</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>RF_model.fit(X_train,y_train)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>y_prob_RF <span class="op">=</span> RF_model.predict_proba(X_test)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>y_pred_RF <span class="op">=</span> (y_prob_RF[:,<span class="dv">1</span>] <span class="op">&gt;=</span> threshold).astype(<span class="st">'int'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>RF_model <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">1234</span>, max_depth <span class="op">=</span> <span class="dv">20</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, class_weight<span class="op">=</span><span class="st">'balanced'</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>RF_model.fit(X_train,y_train)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>y_prob_RF <span class="op">=</span> RF_model.predict_proba(X_test)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>y_pred_RF <span class="op">=</span> (y_prob_RF[:,<span class="dv">1</span>] <span class="op">&gt;=</span> threshold).astype(<span class="st">'int'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="model-evaluation" class="level2">
 <h2 class="anchored" data-anchor-id="model-evaluation">Model Evaluation</h2>
 <div class="cell" data-execution_count="121">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Accuracy_RF <span class="op">=</span> metrics.accuracy_score(y_test, y_pred_RF)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>F1_RF <span class="op">=</span> metrics.f1_score(y_test, y_pred_RF)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>AUC <span class="op">=</span> metrics.roc_auc_score(y_test, y_pred_RF)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>clas_report <span class="op">=</span> metrics.classification_report(y_test, y_pred_RF)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (Accuracy_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (F1_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (AUC))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Accuracy_RF <span class="op">=</span> metrics.accuracy_score(y_test, y_pred_RF)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>F1_RF <span class="op">=</span> metrics.f1_score(y_test, y_pred_RF)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>AUC <span class="op">=</span> metrics.roc_auc_score(y_test, y_pred_RF)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>clas_report <span class="op">=</span> metrics.classification_report(y_test, y_pred_RF)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (Accuracy_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (F1_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (AUC))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>RF Accuracy: 0.69 
 F1 Score: 0.49 
@@ -414,58 +557,58 @@ AUC_ROC: 0.63</code></pre>
 <section id="confusion-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="confusion-matrix">Confusion Matrix</h3>
 <div class="cell" data-execution_count="105">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, ConfusionMatrixDisplay</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cf_matrix <span class="op">=</span> confusion_matrix(y_test, y_pred_RF)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cf_matrix, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, fmt<span class="op">=</span><span class="st">'0.1f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, ConfusionMatrixDisplay</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>cf_matrix <span class="op">=</span> confusion_matrix(y_test, y_pred_RF)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cf_matrix, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, fmt<span class="op">=</span><span class="st">'0.1f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="105">
 <pre><code>&lt;Axes: &gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Logistic Regression_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
+<p><img src="Logistic Regression_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
 <section id="optimal-threshold" class="level3">
 <h3 class="anchored" data-anchor-id="optimal-threshold">Optimal Threshold</h3>
 <div class="cell" data-execution_count="106">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Fscore <span class="op">=</span> []</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>thrsh <span class="op">=</span> []</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>,<span class="dv">65</span>,<span class="dv">1</span>):</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> i<span class="op">/</span><span class="dv">100</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    thrsh.append(threshold)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    RF_model <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">1234</span>, max_depth <span class="op">=</span> <span class="dv">20</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, class_weight<span class="op">=</span><span class="st">'balanced'</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    RF_model.fit(X_train,y_train)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    y_prob_RF <span class="op">=</span> RF_model.predict_proba(X_test)</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    y_pred_RF <span class="op">=</span> (y_prob_RF[:,<span class="dv">1</span>] <span class="op">&gt;=</span> threshold).astype(<span class="st">'int'</span>)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    Accuracy_RF <span class="op">=</span> metrics.accuracy_score(y_test, y_pred_RF)</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    Fscore.append(metrics.f1_score(y_test, y_pred_RF))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Fscore <span class="op">=</span> []</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>thrsh <span class="op">=</span> []</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>,<span class="dv">65</span>,<span class="dv">1</span>):</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> i<span class="op">/</span><span class="dv">100</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    thrsh.append(threshold)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    RF_model <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">1234</span>, max_depth <span class="op">=</span> <span class="dv">20</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, class_weight<span class="op">=</span><span class="st">'balanced'</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    RF_model.fit(X_train,y_train)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    y_prob_RF <span class="op">=</span> RF_model.predict_proba(X_test)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    y_pred_RF <span class="op">=</span> (y_prob_RF[:,<span class="dv">1</span>] <span class="op">&gt;=</span> threshold).astype(<span class="st">'int'</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    Accuracy_RF <span class="op">=</span> metrics.accuracy_score(y_test, y_pred_RF)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    Fscore.append(metrics.f1_score(y_test, y_pred_RF))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="107">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plot <span class="op">=</span> sns.lineplot(x<span class="op">=</span>thrsh, y<span class="op">=</span>Fscore)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(x<span class="op">=</span><span class="fl">0.3</span>, y<span class="op">=</span><span class="fl">0.586</span>, color<span class="op">=</span><span class="st">'r'</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plot.set_xlabel(<span class="st">"Threshold"</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plot.set_ylabel(<span class="st">"F1 Score"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plot <span class="op">=</span> sns.lineplot(x<span class="op">=</span>thrsh, y<span class="op">=</span>Fscore)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(x<span class="op">=</span><span class="fl">0.3</span>, y<span class="op">=</span><span class="fl">0.586</span>, color<span class="op">=</span><span class="st">'r'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>plot.set_xlabel(<span class="st">"Threshold"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>plot.set_ylabel(<span class="st">"F1 Score"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="Logistic Regression_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+<p><img src="Logistic Regression_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>We can see that the optimal threshold is 0.3, then we have:</p>
 <div class="cell" data-execution_count="118">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">0.3</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>y_pred_RF <span class="op">=</span> (y_prob_RF[:,<span class="dv">1</span>] <span class="op">&gt;=</span> threshold).astype(<span class="st">'int'</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Accuracy_RF <span class="op">=</span> metrics.accuracy_score(y_test, y_pred_RF)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>F1_RF <span class="op">=</span> metrics.f1_score(y_test, y_pred_RF)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>AUC <span class="op">=</span> metrics.roc_auc_score(y_test, y_pred_RF)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>clas_report <span class="op">=</span> metrics.classification_report(y_test, y_pred_RF)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (Accuracy_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (F1_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (AUC))</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>cf_matrix <span class="op">=</span> confusion_matrix(y_test, y_pred_RF)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cf_matrix, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, fmt<span class="op">=</span><span class="st">'0.1f'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>y_pred_RF <span class="op">=</span> (y_prob_RF[:,<span class="dv">1</span>] <span class="op">&gt;=</span> threshold).astype(<span class="st">'int'</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>Accuracy_RF <span class="op">=</span> metrics.accuracy_score(y_test, y_pred_RF)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>F1_RF <span class="op">=</span> metrics.f1_score(y_test, y_pred_RF)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>AUC <span class="op">=</span> metrics.roc_auc_score(y_test, y_pred_RF)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>clas_report <span class="op">=</span> metrics.classification_report(y_test, y_pred_RF)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RF Accuracy: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (Accuracy_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">F1 Score: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (F1_RF), <span class="st">"</span><span class="ch">\n</span><span class="st">AUC_ROC: </span><span class="sc">%0.2f</span><span class="st">"</span> <span class="op">%</span> (AUC))</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>cf_matrix <span class="op">=</span> confusion_matrix(y_test, y_pred_RF)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cf_matrix, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, fmt<span class="op">=</span><span class="st">'0.1f'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>RF Accuracy: 0.61 
 F1 Score: 0.59 
@@ -475,11 +618,12 @@ AUC_ROC: 0.64</code></pre>
 <pre><code>&lt;Axes: &gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Logistic Regression_files/figure-html/cell-15-output-3.png" class="img-fluid"></p>
+<p><img src="Logistic Regression_files/figure-html/cell-17-output-3.png" class="img-fluid"></p>
 </div>
 </div>
 
 
+</section>
 </section>
 </section>
 
