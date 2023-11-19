@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/KNN/KNN.html",
       "/posts/Probability Theory/Probability Theory.html",
       "/posts/Logistic_Regrssion/Logistic Regression.html",
       "/posts/Random_Forest/Random_Forest.html",
