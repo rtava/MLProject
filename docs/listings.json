@@ -2,11 +2,11 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/DBSCAN/DBSCAN.html",
       "/posts/K_Mean/K-Mean.html",
       "/posts/Probability Theory/Probability Theory.html",
       "/posts/Logistic_Regrssion/Logistic Regression.html",
-      "/posts/Random_Forest/Random_Forest.html",
-      "/posts/post-with-code/index.html"
+      "/posts/Random_Forest/Random_Forest.html"
     ]
   }
 ]

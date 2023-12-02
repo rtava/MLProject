@@ -35,41 +35,6 @@
     "text": "Model Evaluation\n\nAccuracy_RF = metrics.accuracy_score(y_test, y_pred_RF)\nF1_RF = metrics.f1_score(y_test, y_pred_RF)\nAUC = metrics.roc_auc_score(y_test, y_pred_RF)\nclas_report = metrics.classification_report(y_test, y_pred_RF)\n\nprint(\"RF Accuracy: %0.2f\" % (Accuracy_RF), \"\\nF1 Score: %0.2f\" % (F1_RF), \"\\nAUC_ROC: %0.2f\" % (AUC))\n\nRF Accuracy: 0.69 \nF1 Score: 0.49 \nAUC_ROC: 0.63\n\n\n\nConfusion Matrix\n\nfrom sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay\ncf_matrix = confusion_matrix(y_test, y_pred_RF)\nsns.heatmap(cf_matrix, annot=True, cmap='Blues', fmt='0.1f')\n\n&lt;Axes: &gt;\n\n\n\n\n\n\n\nOptimal Threshold\n\nfrom sklearn import metrics\nfrom sklearn.ensemble import RandomForestClassifier\n\nFscore = []\nthrsh = []\nfor i in range(10,65,1):\n    threshold = i/100\n    thrsh.append(threshold)\n\n    RF_model = RandomForestClassifier(random_state=1234, max_depth = 20, n_estimators=100, class_weight='balanced')\n    RF_model.fit(X_train,y_train)\n    y_prob_RF = RF_model.predict_proba(X_test)\n    y_pred_RF = (y_prob_RF[:,1] &gt;= threshold).astype('int')\n    Accuracy_RF = metrics.accuracy_score(y_test, y_pred_RF)\n    Fscore.append(metrics.f1_score(y_test, y_pred_RF))\n\n\nplot = sns.lineplot(x=thrsh, y=Fscore)\nplt.scatter(x=0.3, y=0.586, color='r')\nplot.set_xlabel(\"Threshold\")\nplot.set_ylabel(\"F1 Score\");\n\n\n\n\nWe can see that the optimal threshold is 0.3, then we have:\n\nthreshold = 0.3\ny_pred_RF = (y_prob_RF[:,1] &gt;= threshold).astype('int')\n\nAccuracy_RF = metrics.accuracy_score(y_test, y_pred_RF)\nF1_RF = metrics.f1_score(y_test, y_pred_RF)\nAUC = metrics.roc_auc_score(y_test, y_pred_RF)\nclas_report = metrics.classification_report(y_test, y_pred_RF)\n\nprint(\"RF Accuracy: %0.2f\" % (Accuracy_RF), \"\\nF1 Score: %0.2f\" % (F1_RF), \"\\nAUC_ROC: %0.2f\" % (AUC))\ncf_matrix = confusion_matrix(y_test, y_pred_RF)\nsns.heatmap(cf_matrix, annot=True, cmap='Blues', fmt='0.1f');\n\nRF Accuracy: 0.61 \nF1 Score: 0.59 \nAUC_ROC: 0.64"
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
-    "section": "",
-    "text": "This is a post with executable code."
-  },
-  {
-    "objectID": "posts/K_Mean/K-Mean.html",
-    "href": "posts/K_Mean/K-Mean.html",
-    "title": "A simple price categorization system for used cell phones, using KMean method",
-    "section": "",
-    "text": "In this blog post, I will discuss a straightforward system for categorizing the prices of used cell phones in an online store. The goal is to use the K-Mean method to allocate cell phones to different price categories based on their mobile specifications."
-  },
-  {
-    "objectID": "posts/K_Mean/K-Mean.html#optimal-number-of-clusters",
-    "href": "posts/K_Mean/K-Mean.html#optimal-number-of-clusters",
-    "title": "A simple price categorization system for used cell phones, using KMean method",
-    "section": "Optimal Number of Clusters",
-    "text": "Optimal Number of Clusters\nIn this step, I calculate the “K-mean Inertia” for different numbers of clusters from 1 to 20, and plot the values. Based on the results, I can determine the optimal number of clusters to categorize cell phones.\n\nimport warnings\nwarnings.filterwarnings('ignore')\n\nkmeans_per_k = [KMeans(n_clusters=k, random_state=42).fit(x_data)\n                for k in range(1, 21)]\ninertias = [model.inertia_ for model in kmeans_per_k]\n\n\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\nsns.set_style(\"whitegrid\")\na = sns.lineplot(x= range(1, 21), y = inertias)\nb = sns.scatterplot(x= range(1, 21), y = inertias)\n\nb.set_xticks(range(1,21)) \nb.set_xlabel(\"Number of Clusters\")\nb.set_ylabel(\"Cost Function (Inertia)\")\n\nplt.show();\n\n\n\n\nI set number of cluster to 6\n\nk_means = KMeans(init = \"k-means++\", n_clusters = 6, \n                 n_init=12, random_state=42)\n\nk_means.fit(x_data)\ndf['Cluster'] = k_means.labels_\n\nThe following plot shows the relation between clusterring, internal memory, and ram.\n\nimport seaborn as sns\ng = sns.scatterplot(data=df, x=\"int_memory\", y=\"ram\", hue=\"Cluster\")\ng.set_xlabel(\"Internal Memory\")\ng.set_ylabel(\"Random Access Memory\")\n\nplt.show();"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Me",
-    "section": "",
-    "text": "I’m Reza Tavakoli - a PhD student in Economics at Virginia Tech University. I have a keen interest in using various tools to answer serious questions. Through this blog, I will be sharing material related to introducing different kinds of econometric and machine learning methods, using these methods to answer important questions that matter."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "MLProject",
-    "section": "",
-    "text": "A simple price categorization system for used cell phones, using KMean method\n\n\n\n\n\n\n\nML\n\n\nKMean\n\n\nClustering\n\n\n\n\n\n\n\n\n\n\n\nNov 26, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nChance Regularities in Casting Two Dices\n\n\n\n\n\n\n\nML\n\n\nProbability\n\n\n\n\n\n\n\n\n\n\n\nNov 20, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nCustomer Loyalty, Using Logistic Regression\n\n\n\n\n\n\n\nML\n\n\nRegression\n\n\nClassification\n\n\n\n\n\n\n\n\n\n\n\nNov 15, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nUsing Random Forest to predict loans defualt rate\n\n\n\n\n\n\n\nML\n\n\nRandom Forest\n\n\nClassification\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nOct 11, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "posts/Logistic_Regrssion/Logistic Regression.html",
     "href": "posts/Logistic_Regrssion/Logistic Regression.html",
     "title": "Customer Loyalty, Using Logistic Regression",
@@ -89,6 +54,62 @@
     "title": "Customer Loyalty, Using Logistic Regression",
     "section": "Model Evaluation",
     "text": "Model Evaluation\n\nfrom sklearn import metrics\n\nAccuracy_RF = metrics.accuracy_score(y_test, y_pred_LR)\nF1_RF = metrics.f1_score(y_test, y_pred_LR)\nAUC = metrics.roc_auc_score(y_test, y_pred_LR)\nclas_report = metrics.classification_report(y_test, y_pred_LR)\n\nprint(\"RF Accuracy: %0.2f\" % (Accuracy_RF), \"\\nF1 Score: %0.2f\" % (F1_RF), \"\\nAUC_ROC: %0.2f\" % (AUC))\n\nRF Accuracy: 0.84 \nF1 Score: 0.71 \nAUC_ROC: 0.80\n\n\n\nConfusion Matrix\n\nfrom sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay\ncf_matrix = confusion_matrix(y_test, y_pred_LR)\nsns.heatmap(cf_matrix, annot=True, cmap='Blues', fmt='0.1f')\n\n&lt;Axes: &gt;\n\n\n\n\n\n\nfrom sklearn.metrics import log_loss\nlog_loss(y_test, y_prob_LR)\n\n0.5073750448656873"
+  },
+  {
+    "objectID": "posts/DBSCAN/DBSCAN.html",
+    "href": "posts/DBSCAN/DBSCAN.html",
+    "title": "Outlier Detection methods in ML",
+    "section": "",
+    "text": "In the field of Machine Learning, there exist various techniques to identify outliers. In this blog post, I will be demonstrating the use of IQR and DBSCAN methods to detect outliers.\nFor the purpose of this demonstration, I will be utilizing a dataset that contains information on the height and weight of 200 individuals.\n\nimport pandas as pd\ndf = pd.read_csv(\"https://gist.githubusercontent.com/simonlast/d20a53af004bfd7cd912403884ce80d2/raw/c92846e3387f11abc7e318db88c7aca6ecec1b4c/height_weight_data.csv\")\ndf.rename(columns = {' Height (Inches)':'Height', ' Weight (Pounds)': 'Weight'}, inplace=True)\ndf.head()\n\n\n\n\n\n\n\n\nIndex\nHeight\nWeight\n\n\n\n\n0\n1\n65.78\n112.99\n\n\n1\n2\n71.52\n136.49\n\n\n2\n3\n69.40\n153.03\n\n\n3\n4\n68.22\n142.34\n\n\n4\n5\n67.79\n144.30\n\n\n\n\n\n\n\n\nimport seaborn as sns\nsns.set_theme(style=\"whitegrid\")\nsns.scatterplot(data = df, x = \"Height\", y = \"Weight\")\n\n&lt;Axes: xlabel='Height', ylabel='Weight'&gt;"
+  },
+  {
+    "objectID": "posts/DBSCAN/DBSCAN.html#defining-quatiles",
+    "href": "posts/DBSCAN/DBSCAN.html#defining-quatiles",
+    "title": "Outlier Detection methods in ML",
+    "section": "1. Defining quatiles",
+    "text": "1. Defining quatiles\nFirst, we should derive quatiles of a variable. I use 75% and 25% quartiles.\n\n\n\nBoxplot\n\n\n\nq1_h = df['Height'].quantile(0.25)\nq3_h = df['Height'].quantile(0.75)\n\nq1_w = df['Weight'].quantile(0.25)\nq3_w = df['Weight'].quantile(0.75)"
+  },
+  {
+    "objectID": "posts/DBSCAN/DBSCAN.html#iqr-range",
+    "href": "posts/DBSCAN/DBSCAN.html#iqr-range",
+    "title": "Outlier Detection methods in ML",
+    "section": "2. IQR Range",
+    "text": "2. IQR Range\nI define a new variable to detect datapoint between 25% and 75% quantiles, then, create a range to keep the datapoints in this range.\n\\(Fence_{Lower} = Q1 - \\alpha \\times (Q3-Q1)\\)\n\\(Fence_{Upper} = Q3 + \\alpha \\times (Q3-Q1)\\)\n\nalpha = 0.5\n\niqr_h = q3_h - q1_h\nlower_fence_h = q1_h - alpha*iqr_h\nupper_fence_h = q3_h + alpha*iqr_h\n\niqr_w = q3_w - q1_w\nlower_fence_w = q1_w - alpha*iqr_w\nupper_fence_w = q3_w + alpha*iqr_w\n\n\n\n\nIQR"
+  },
+  {
+    "objectID": "posts/DBSCAN/DBSCAN.html#detecting-outliers",
+    "href": "posts/DBSCAN/DBSCAN.html#detecting-outliers",
+    "title": "Outlier Detection methods in ML",
+    "section": "3. Detecting Outliers",
+    "text": "3. Detecting Outliers\nIn this step, I label the datapoint that are out of the range.\n\nfor i in range(len(df)):\n    if df.loc[i, 'Height'] &lt; lower_fence_h or df.loc[i, 'Height'] &gt; upper_fence_h:  # if outlier\n        df.loc[i, \"out_\" + 'Height'] = 1\n    else:\n            df.loc[i, \"out_\" + 'Height'] = 0\n\n\nfor i in range(len(df)):\n    if df.loc[i, 'Weight'] &lt; lower_fence_w or df.loc[i, 'Weight'] &gt; upper_fence_w:  # if outlier\n        df.loc[i, \"out_\" + 'Weight'] = 1\n    else:\n            df.loc[i, \"out_\" + 'Weight'] = 0\n\ndf['outliers'] = 0\ndf.loc[(df['out_Height'] == 1) & (df['out_Weight'] == 1), 'outliers'] = 1\n\n\ndf.outliers.mean()\n\n0.045\n\n\n\nsns.scatterplot(data = df, \n                x = \"Height\", \n                y = \"Weight\", \n                hue='outliers').set_title(\"IQR Outlier detection\");"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "I’m Reza Tavakoli - a PhD student in Economics at Virginia Tech University. I have a keen interest in using various tools to answer serious questions. Through this blog, I will be sharing material related to introducing different kinds of econometric and machine learning methods, using these methods to answer important questions that matter."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MLProject",
+    "section": "",
+    "text": "Outlier Detection methods in ML\n\n\n\n\n\n\n\nML\n\n\nDBSCAN\n\n\nIQR\n\n\nClustering\n\n\n\n\n\n\n\n\n\n\n\nDec 2, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nA simple price categorization system for used cell phones, using KMean method\n\n\n\n\n\n\n\nML\n\n\nKMean\n\n\nClustering\n\n\n\n\n\n\n\n\n\n\n\nNov 26, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nChance Regularities in Casting Two Dices\n\n\n\n\n\n\n\nML\n\n\nProbability\n\n\n\n\n\n\n\n\n\n\n\nNov 20, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nCustomer Loyalty, Using Logistic Regression\n\n\n\n\n\n\n\nML\n\n\nRegression\n\n\nClassification\n\n\n\n\n\n\n\n\n\n\n\nNov 15, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\n  \n\n\n\n\nUsing Random Forest to predict loans defualt rate\n\n\n\n\n\n\n\nML\n\n\nRandom Forest\n\n\nClassification\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2023\n\n\nReza Tavakoli\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/K_Mean/K-Mean.html",
+    "href": "posts/K_Mean/K-Mean.html",
+    "title": "A simple price categorization system for used cell phones, using KMean method",
+    "section": "",
+    "text": "In this blog post, I will discuss a straightforward system for categorizing the prices of used cell phones in an online store. The goal is to use the K-Mean method to allocate cell phones to different price categories based on their mobile specifications."
+  },
+  {
+    "objectID": "posts/K_Mean/K-Mean.html#optimal-number-of-clusters",
+    "href": "posts/K_Mean/K-Mean.html#optimal-number-of-clusters",
+    "title": "A simple price categorization system for used cell phones, using KMean method",
+    "section": "Optimal Number of Clusters",
+    "text": "Optimal Number of Clusters\nIn this step, I calculate the “K-mean Inertia” for different numbers of clusters from 1 to 20, and plot the values. Based on the results, I can determine the optimal number of clusters to categorize cell phones.\n\nimport warnings\nwarnings.filterwarnings('ignore')\n\nkmeans_per_k = [KMeans(n_clusters=k, random_state=42).fit(x_data)\n                for k in range(1, 21)]\ninertias = [model.inertia_ for model in kmeans_per_k]\n\n\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\nsns.set_style(\"whitegrid\")\na = sns.lineplot(x= range(1, 21), y = inertias)\nb = sns.scatterplot(x= range(1, 21), y = inertias)\n\nb.set_xticks(range(1,21)) \nb.set_xlabel(\"Number of Clusters\")\nb.set_ylabel(\"Cost Function (Inertia)\")\n\nplt.show();\n\n\n\n\nI set number of cluster to 6\n\nk_means = KMeans(init = \"k-means++\", n_clusters = 6, \n                 n_init=12, random_state=42)\n\nk_means.fit(x_data)\ndf['Cluster'] = k_means.labels_\n\nThe following plot shows the relation between clusterring, internal memory, and ram.\n\nimport seaborn as sns\ng = sns.scatterplot(data=df, x=\"int_memory\", y=\"ram\", hue=\"Cluster\")\ng.set_xlabel(\"Internal Memory\")\ng.set_ylabel(\"Random Access Memory\")\n\nplt.show();"
   },
   {
     "objectID": "posts/Probability Theory/Probability Theory.html",
